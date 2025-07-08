@@ -1,27 +1,47 @@
 <template>
   <div
-    class="relative bg-gray-800 rounded-xl shadow-md p-4 flex flex-col items-center text-center w-full max-w-xs min-h-[420px] border-2 border-transparent hover:bg-gray-700/80 transition-all duration-300 group"
-    style="box-shadow: 0 0 8px 1px #60a5fa22"
+    class="relative rounded-2xl p-5 min-w-[320px] min-h-[440px] flex flex-col justify-between bg-gradient-to-br from-[#23243a] to-[#18192b] border border-white/10 shadow-[0_4px_32px_0_rgba(0,0,0,0.40)] overflow-hidden"
+    style="backdrop-filter: blur(16px)"
   >
-    <div
-      class="absolute inset-0 rounded-xl pointer-events-none border-2 border-blue-300 opacity-30 group-hover:opacity-50"
-      style="z-index: 0; box-shadow: 0 0 8px 2px #60a5fa33"
-    ></div>
-    <img
-      :src="preview"
-      :alt="`${name} preview`"
-      class="w-full h-auto object-cover rounded-lg mb-3 relative z-10"
-    />
-    <div class="flex justify-center flex-col items-center relative z-10 pt-6">
-      <div class="flex items-center mb-2 relative z-10">
-        <img :src="icon" :alt="`${name} icon`" class="w-8 h-8 rounded mr-2" />
-        <span class="text-lg font-semibold text-white">{{ name }}</span>
+    <div class="flex items-center justify-between z-10">
+      <div class="flex items-center">
+        <img
+          :src="icon"
+          :alt="`${name} icon`"
+          class="w-9 h-9 rounded-lg bg-[#23243a] border border-[#35365a] mr-3"
+        />
+        <span class="text-white font-semibold text-lg">{{ name }}</span>
       </div>
-      <div class="text-sm text-gray-400 mb-1 relative z-10">
-        by {{ author }}
-      </div>
-      <p class="text-gray-300 text-sm relative z-10">{{ description }}</p>
+      <button
+        class="w-8 h-8 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 transition"
+      >
+        <svg
+          width="18"
+          height="18"
+          fill="none"
+          stroke="#fff"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M9 6l6 6-6 6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
     </div>
+    <img :src="preview" alt="" />
+    <!-- Description -->
+    <div class="mt-4 mb-2 z-10">
+      <p class="text-white text-sm font-medium">{{ description }}</p>
+    </div>
+
+    <!-- Divider -->
+    <div class="border-t border-white/10 my-3"></div>
+
+    <!-- Preview image (optional, can be background or above options) -->
+    <!-- <img :src="preview" :alt="`${name} preview`" class="w-full h-24 object-cover rounded-lg mb-3" /> -->
   </div>
 </template>
 
