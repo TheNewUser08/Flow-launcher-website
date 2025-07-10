@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative rounded-2xl p-5 min-w-[320px] min-h-[440px] flex flex-col justify-between bg-gradient-to-br from-[#23243a] to-[#18192b] border border-white/10 shadow-[0_4px_32px_0_rgba(0,0,0,0.40)] overflow-hidden"
+    class="relative rounded-2xl p-5 w-min-[320px] h-min-[440px] w-[320px] h-[440px] flex flex-col justify-between bg-gradient-to-br from-[#23243a] to-[#18192b] border border-white/10 shadow-[0_4px_32px_0_rgba(0,0,0,0.40)] overflow-hidden"
     style="backdrop-filter: blur(16px)"
   >
     <div class="flex items-center justify-between z-10">

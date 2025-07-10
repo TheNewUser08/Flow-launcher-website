@@ -5,8 +5,47 @@ import { motion, useScroll } from "motion-v";
 const { scrollYProgress } = useScroll();
 import { Search, Box, PenBox } from "lucide-vue-next";
 
-import { ref } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 const sliderValue = ref(50);
+
+// --- Start of new code for drag-to-scroll ---
+const extensionsContainer = ref(null);
+const isDown = ref(false);
+const startX = ref(0);
+const scrollLeftStart = ref(0);
+
+const onMouseDown = (e) => {
+  e.preventDefault(); // Add this line
+  isDown.value = true;
+  if (extensionsContainer.value) {
+    extensionsContainer.value.classList.add("active");
+    startX.value = e.pageX - extensionsContainer.value.offsetLeft;
+    scrollLeftStart.value = extensionsContainer.value.scrollLeft;
+  }
+};
+
+const onMouseLeave = () => {
+  isDown.value = false;
+  if (extensionsContainer.value) {
+    extensionsContainer.value.classList.remove("active");
+  }
+};
+
+const onMouseUp = () => {
+  isDown.value = false;
+  if (extensionsContainer.value) {
+    extensionsContainer.value.classList.remove("active");
+  }
+};
+
+const onMouseMove = (e) => {
+  if (!isDown.value || !extensionsContainer.value) return;
+  e.preventDefault();
+  const x = e.pageX - extensionsContainer.value.offsetLeft;
+  const walk = (x - startX.value) * 2; // Multiplier for scroll speed
+  extensionsContainer.value.scrollLeft = scrollLeftStart.value - walk;
+};
+// --- End of new code for drag-to-scroll ---
 </script>
 
 <template class="bg-gray-900 m-5 z-10">
@@ -129,7 +168,7 @@ const sliderValue = ref(50);
         />
       </div>
     </div>
-    <div class="w-screen">
+    <div class="w-full max-w-screen-lg px-4">
       <div class="p-10">
         <h2 class="text-xl font-bold">Community-made plugins</h2>
         <h3 class="text-gray-300">
@@ -137,50 +176,62 @@ const sliderValue = ref(50);
         </h3>
 
         <div
-          class="flex flex-nowrap overflow-x-auto space-x-6 justify-left mt-6 gap-6"
+          ref="extensionsContainer"
+          class="grid grid-flow-col auto-cols-max overflow-x-auto space-x-6 justify-left mt-6 gap-6"
+          @mousedown="onMouseDown"
+          @mouseleave="onMouseLeave"
+          @mouseup="onMouseUp"
+          @mousemove="onMouseMove"
         >
           <ExtensionCard
             name="Obsidian"
             preview="/ObsidianExtension.avif"
             icon="/Obsidian.svg"
             author="Flow Community"
-            description="An example plugin to showcase the capabilities of Flow Launcher."
+            description="Search and open your Obsidian vaults, notes, and files."
           />
           <ExtensionCard
             name="Steam"
             preview="/SteamPreview.avif"
             icon="/Steam.svg"
             author="Garulf"
+            description="Quickly launch your favorite Steam games."
           />
           <ExtensionCard
-            name="Obsidian"
-            preview="/ObsidianExtension.avif"
-            icon="/Obsidian.svg"
+            name="Spotify"
+            preview="/Spotify plugin.avif"
+            icon="/spotify.svg"
+            author="fow5040"
+            description="Control your Spotify playback, search songs, and manage playlists."
+          />
+
+          <ExtensionCard
+            name="Github"
+            preview="/githubPreview.avif"
+            icon="/github_dark.svg"
             author="Flow Community"
+            description="Search for repositories, issues, and pull requests on GitHub."
+          />
+
+          <ExtensionCard
+            name="Clipboard History"
+            preview="/ClipboardHistoryPreview.png"
+            icon="/clipboard.png"
+            author="Jack251970"
             description="An example plugin to showcase the capabilities of Flow Launcher."
           />
-          <ExtensionCard
-            name="Steam"
-            preview="/SteamPreview.avif"
-            icon="/Steam.svg"
-            author="Garulf"
-          />
-          <ExtensionCard
-            name="Obsidian"
-            preview="/ObsidianExtension.avif"
-            icon="/Obsidian.svg"
-            author="Flow Community"
-            description="An example plugin to showcase the capabilities of Flow Launcher."
-          />
-          <ExtensionCard
-            name="Steam"
-            preview="/SteamPreview.avif"
-            icon="/Steam.svg"
-            author="Garulf"
-          />
+          <div class="flex items-center justify-center">
+            <a
+              href="https://www.flowlauncher.com/plugins"
+              class="text-white font-semibold bg-blue-600 opacity-90 hover:bg-blue-700 py-2 px-3 border text-sm border-blue-800 rounded-lg hover:shadow-lg text-center"
+            >
+              View all
+            </a>
+          </div>
         </div>
       </div>
     </div>
+
     <div>
       <h2 class="text-2xl font-bold text-center mt-16 mb-4">Customizations</h2>
 
