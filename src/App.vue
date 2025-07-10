@@ -17,13 +17,24 @@ const sliderValue = ref(50);
       <filter id="blending-noise">
         <feTurbulence
           type="fractalNoise"
-          baseFrequency="0.68"
-          numOctaves="2"
+          baseFrequency="0.7"
+          numOctaves="1"
           stitchTiles="stitch"
           result="turbulence"
         />
         <feColorMatrix
           in="turbulence"
+          type="saturate"
+          values="0"
+          result="noise"
+        />
+        <feComponentTransfer in="noise" result="noise">
+          <feFuncR type="linear" slope="0.9" intercept="0.1" />
+          <feFuncG type="linear" slope="0.5" intercept="0.2" />
+          <feFuncB type="linear" slope="0.8" intercept="0.3" />
+        </feComponentTransfer>
+        <feColorMatrix
+          in="noise"
           type="matrix"
           values="0 0 0 0 0 
                   0 0 0 0 0 
@@ -44,16 +55,16 @@ const sliderValue = ref(50);
           filter: url(#blending-noise);
           mask-image: radial-gradient(
               circle at center,
-              black 0%,
-              transparent 70%
+              black 30%,
+              transparent 80%
             ),
-            linear-gradient(to bot, black 50%, transparent 100%);
+            linear-gradient(to bottom, black 40%, transparent 100%);
           -webkit-mask-image: radial-gradient(
               circle at center,
-              black 0%,
-              transparent 70%
+              black 20%,
+              transparent 80%
             ),
-            linear-gradient(to bot, black 50%, transparent 100%);
+            linear-gradient(to bottom, black 40%, transparent 100%);
         "
       />
       <motion.div
@@ -68,6 +79,15 @@ const sliderValue = ref(50);
         >productivity</motion.div
       >
     </h1>
+    <div class="flex flex-col space-y-2 items-center mt-10">
+      <button
+        class="flex p-2 bg-blue-600 opacity-90 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg min-w-[120px] transition-all hover:cursor-pointer border border-gray-700 shadow-lg"
+      >
+        <img src="/windows-11.png" alt="" class="w-6 mr-2" /> Download for
+        Window
+      </button>
+      <span class="text-gray-500 text-sm">v1.20.1 - Jun 14, 2025</span>
+    </div>
     <div class="flex flex-row items-center mt-10">
       <div class="text-right mr-10">
         <div>
@@ -164,7 +184,7 @@ const sliderValue = ref(50);
     <div>
       <h2 class="text-2xl font-bold text-center mt-16 mb-4">Customizations</h2>
 
-      <div class="relative w-[600px] mx-auto my-8 select-none group">
+      <div class="relative w-[800px] mx-auto my-8 select-none group">
         <!-- Dark mode image (background) -->
         <img
           src="/Flow dark.png"
