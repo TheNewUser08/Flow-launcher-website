@@ -8,7 +8,6 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    DownloadButton: typeof import('./src/components/DownloadButton.vue')['default']
     ExtensionCard: typeof import('./src/components/ExtensionCard.vue')['default']
     FeatureCard: typeof import('./src/components/FeatureCard.vue')['default']
     NavBar: typeof import('./src/components/NavBar.vue')['default']

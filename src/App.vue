@@ -11,7 +11,7 @@ const sliderValue = ref(50);
 const tabs = ref([
   { id: "developer", label: "Developer" },
   { id: "designer", label: "Designer" },
-  { id: "note-taker", label: "Note Taker" },
+  { id: "productivity", label: "Productivity" },
 ]);
 const activeTab = ref(tabs.value[0].id);
 
@@ -182,14 +182,14 @@ const onMouseMove = (e) => {
     </div>
 
     <div class="w-full">
-      <div>
-        <div class="relative flex justify-center space-x-10 p-1">
+      <div class="flex items-center flex-col mt-30 space-y-10">
+        <div class="flex justify-center space-x-10 p-1">
           <button
             v-for="tab in tabs"
             :key="tab.id"
             @click="activeTab = tab.id"
             :class="[
-              'relative rounded-full px-4 py-2 text-sm font-medium transition',
+              'relative rounded-full px-4 py-2 text-sm font-medium transition cursor-pointer',
               activeTab === tab.id
                 ? 'text-white'
                 : 'text-gray-400 hover:text-white',
@@ -207,7 +207,14 @@ const onMouseMove = (e) => {
             <span class="relative">{{ tab.label }}</span>
           </button>
         </div>
-        <img src="/background desktop.png" alt="" />
+        <div class="relative">
+          <img src="/background desktop.png" alt="" />
+          <img
+            :src="'/' + activeTab + '.png'"
+            alt=""
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 shadow-l rounded-lg md:w-2/3 h-auto"
+          />
+        </div>
       </div>
     </div>
     <div class="w-full max-w-screen-lg px-4">
@@ -263,12 +270,17 @@ const onMouseMove = (e) => {
             description="An example plugin to showcase the capabilities of Flow Launcher."
           />
           <div class="flex items-center justify-center">
-            <a
+            <motion.a
               href="https://www.flowlauncher.com/plugins"
               class="text-white font-semibold bg-blue-600 opacity-90 hover:bg-blue-700 py-2 px-3 border text-sm border-blue-800 rounded-lg hover:shadow-lg text-center"
+              :initial="{ opacity: 0 }"
+              :whileInView="{ opacity: 1 }"
+              :whileHover="{ scale: 1.05 }"
+              :whileTap="{ scale: 0.95 }"
+              :transition="{ duration: 0.3 }"
             >
               View all
-            </a>
+            </motion.a>
           </div>
         </div>
       </div>
