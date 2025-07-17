@@ -1,12 +1,19 @@
 <script setup>
 import NavBar from "./components/NavBar.vue";
 // import FeatureCard from "./components/FeatureCard.vue";
-import { motion, useScroll } from "motion-v";
+import { motion, useScroll, useSpring } from "motion-v";
 const { scrollYProgress } = useScroll();
 import { Search, Box, PenBox } from "lucide-vue-next";
 
 import { ref, onMounted, onUnmounted } from "vue";
 const sliderValue = ref(50);
+
+const tabs = ref([
+  { id: "developer", label: "Developer" },
+  { id: "designer", label: "Designer" },
+  { id: "note-taker", label: "Note Taker" },
+]);
+const activeTab = ref(tabs.value[0].id);
 
 // --- Start of new code for drag-to-scroll ---
 const extensionsContainer = ref(null);
@@ -119,12 +126,17 @@ const onMouseMove = (e) => {
       >
     </h1>
     <div class="flex flex-col space-y-2 items-center mt-10">
-      <button
-        class="flex p-2 bg-blue-600 opacity-90 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg min-w-[120px] transition-all hover:cursor-pointer border border-gray-700 shadow-lg"
+      <motion.button
+        class="p-px text-white font-semibold rounded-3xl min-w-[120px] transition-all hover:cursor-pointer shadow-lg bg-gradient-to-b from-blue-400 to-transparent"
+        :whileHover="{ backgroundColor: '#1f2937' }"
+        :transition="{ duration: 0.1, type: 'spring', bounce: 0.3 }"
       >
-        <img src="/windows-11.png" alt="" class="w-6 mr-2" /> Download for
-        Window
-      </button>
+        <div class="flex bg-gray-900 rounded-[18px] px-6 py-2">
+          <img src="/windows-11.png" alt="" class="w-6 mr-2" /> Download for
+          Window
+        </div>
+      </motion.button>
+
       <span class="text-gray-500 text-sm">v1.20.1 - Jun 14, 2025</span>
     </div>
     <div class="flex flex-row items-center mt-10">
@@ -168,6 +180,36 @@ const onMouseMove = (e) => {
         />
       </div>
     </div>
+
+    <div class="w-full">
+      <div>
+        <div class="relative flex justify-center space-x-10 p-1">
+          <button
+            v-for="tab in tabs"
+            :key="tab.id"
+            @click="activeTab = tab.id"
+            :class="[
+              'relative rounded-full px-4 py-2 text-sm font-medium transition',
+              activeTab === tab.id
+                ? 'text-white'
+                : 'text-gray-400 hover:text-white',
+            ]"
+            style="z-index: 10"
+          >
+            <motion.div
+              v-if="activeTab === tab.id"
+              class="absolute inset-0 p-px rounded-3xl bg-gradient-to-b from-blue-400 to-transparent"
+              layoutId="active-pill-bg"
+              :transition="{ duration: 0.6, type: 'spring', bounce: 0.3 }"
+            >
+              <motion.div class="bg-gray-900 rounded-[23px] p-4"> </motion.div>
+            </motion.div>
+            <span class="relative">{{ tab.label }}</span>
+          </button>
+        </div>
+        <img src="/background desktop.png" alt="" />
+      </div>
+    </div>
     <div class="w-full max-w-screen-lg px-4">
       <div class="p-10">
         <h2 class="text-xl font-bold">Community-made plugins</h2>
@@ -177,7 +219,7 @@ const onMouseMove = (e) => {
 
         <div
           ref="extensionsContainer"
-          class="grid grid-flow-col auto-cols-max overflow-x-auto space-x-6 justify-left mt-6 gap-6"
+          class="grid grid-flow-col auto-cols-max overflow-x-auto space-x-6 justify-left mt-6 gap-6 py-10"
           @mousedown="onMouseDown"
           @mouseleave="onMouseLeave"
           @mouseup="onMouseUp"
